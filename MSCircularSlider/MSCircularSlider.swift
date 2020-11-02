@@ -158,6 +158,12 @@ public class MSCircularSlider: UIControl {
         }
     }
     
+    public var handleWidth: Int = 10 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     /** The color of the filled part of the slider - *default: .darkGray* */
     public var filledColor: UIColor = .darkGray {
         didSet {
