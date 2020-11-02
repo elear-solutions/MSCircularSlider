@@ -12,7 +12,7 @@ public enum MSCircularSliderHandleType: Int, RawRepresentable {
     mediumCircle,
     largeCircle,
     doubleCircle,
-    customSize // Semitransparent large circle with a nested small circle
+    customSize(handleWidth: CGFloat) // Semitransparent large circle with a nested small circle
 }
 
 @IBDesignable
@@ -101,8 +101,8 @@ public class MSCircularSliderHandle: CALayer {
             return CGFloat(slider.lineWidth)
         case .largeCircle, .doubleCircle:
             return CGFloat(slider.lineWidth + enlargementPoints)
-        case .customSize:
-            return CGFloat(slider.handleWidth)
+        case .customSize(let handleWidth):
+            return handleWidth
             
         }
     }
