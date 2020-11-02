@@ -158,6 +158,12 @@ public class MSCircularSlider: UIControl {
         }
     }
     
+    public var handleWidth: Int = 10 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     /** The color of the filled part of the slider - *default: .darkGray* */
     public var filledColor: UIColor = .darkGray {
         didSet {
@@ -209,6 +215,17 @@ public class MSCircularSlider: UIControl {
         }
         get {
             return handle.color
+        }
+    }
+    
+    /** The handle's border color */
+    public var handleBorderColor: UIColor {
+        set {
+            handle.secondaryColor = newValue
+            setNeedsDisplay()
+        }
+        get {
+            return handle.secondaryColor
         }
     }
     
@@ -888,12 +905,12 @@ public class MSCircularSlider: UIControl {
     
     /** Calculates the angle from north given a value */
     internal func angleFrom(value: Double) -> CGFloat {
-        return (CGFloat(value - minimumValue) * maximumAngle) / CGFloat(maximumValue - minimumValue)
+        return (CGFloat(value) * maximumAngle) / CGFloat(maximumValue - minimumValue)
     }
     
     /** Calculates the value given an angle from north */
     internal func valueFrom(angle: CGFloat) -> Double {
-        return ((maximumValue - minimumValue) * Double(angle) / Double(maximumAngle)) + minimumValue
+        return (maximumValue - minimumValue) * Double(angle) / Double(maximumAngle)
     }
     
     /** Converts degrees to radians */

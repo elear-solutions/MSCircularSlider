@@ -11,7 +11,8 @@ public enum MSCircularSliderHandleType: Int, RawRepresentable {
     case smallCircle = 0,
     mediumCircle,
     largeCircle,
-    doubleCircle    // Semitransparent large circle with a nested small circle
+    doubleCircle,
+    customSize // Semitransparent large circle with a nested small circle
 }
 
 @IBDesignable
@@ -26,7 +27,7 @@ public class MSCircularSliderHandle: CALayer {
         return delegate as! MSCircularSlider
     }
     
-    /** The handle's current angle form north */
+    /** The handle's current anghandleTypele form north */
     @NSManaged public var angle: CGFloat
     
     /** The handle's current value - *default: minimumValue* */
@@ -55,6 +56,13 @@ public class MSCircularSliderHandle: CALayer {
     
     /** The handle's color - *default: .darkGray* */
     internal var color: UIColor = .darkGray {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    /** The handle's border color */
+    internal var secondaryColor: UIColor = .gray {
         didSet {
             setNeedsDisplay()
         }
@@ -93,6 +101,8 @@ public class MSCircularSliderHandle: CALayer {
             return CGFloat(slider.lineWidth)
         case .largeCircle, .doubleCircle:
             return CGFloat(slider.lineWidth + enlargementPoints)
+        case .customSize:
+            return CGFloat(slider.handleWidth)
             
         }
     }
@@ -145,8 +155,7 @@ public class MSCircularSliderHandle: CALayer {
             calculatedHandleColor.withAlphaComponent(isHighlightable && isPressed ? 0.6 : 0.7).set()
             
             frame = slider.drawFilledCircle(ctx: ctx, center: center(), radius: 0.5 * diameter)
-        }
-        else {
+        } else {
             calculatedHandleColor.set()
             
             frame = slider.drawFilledCircle(ctx: ctx, center: center(), radius: 0.5 * diameter)
