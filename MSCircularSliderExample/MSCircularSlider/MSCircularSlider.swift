@@ -489,9 +489,14 @@ public class MSCircularSlider: UIControl {
             castDelegate?.circularSlider(self, startedTrackingWith: currentValue)
             setNeedsDisplay()
             return true
+        } else if pointInsideCircle(location) {
+          let newAngle = floor(calculateAngle(from: centerPoint, to: location))
+          moveHandle(newAngle: newAngle)
+          castDelegate?.circularSlider(self, valueChangedTo: currentValue, fromUser: true)
+          return true
         }
         
-        return pointInsideCircle(location)
+        return false
     }
     
     override public func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
