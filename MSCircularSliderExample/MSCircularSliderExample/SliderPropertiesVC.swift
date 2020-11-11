@@ -66,6 +66,8 @@ class SliderProperties: UIViewController, MSCircularSliderDelegate, ColorPickerD
         colorPicker = ColorPickerView(frame: CGRect(x: 0, y: view.center.y - view.frame.height * 0.3 / 2.0, width: view.frame.width, height: view.frame.height * 0.3))
         colorPicker?.isHidden = true
         colorPicker?.delegate = self
+      
+        slider.handleWidth = 27
         
         slider.delegate = self
         
@@ -96,8 +98,10 @@ class SliderProperties: UIViewController, MSCircularSliderDelegate, ColorPickerD
             return "Medium Circle"
         case .largeCircle:
             return "Large Circle"
-        case .doubleCircle:
+        case .withBorder:
             return "Double Circle"
+        case .customSize:
+            return "Custom"
         }
     }
     

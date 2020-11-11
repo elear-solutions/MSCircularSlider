@@ -82,8 +82,10 @@ class DoubleHandleVC: UIViewController, MSDoubleHandleCircularSliderDelegate, Co
             return "Medium Circle"
         case .largeCircle:
             return "Large Circle"
-        case .doubleCircle:
+        case .withBorder:
             return "Double Circle"
+        case .customSize:
+            return "Custom"
         }
     }
     

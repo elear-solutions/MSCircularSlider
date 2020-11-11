@@ -20,7 +20,7 @@ public protocol MSCircularSliderDelegate: MSCircularSliderProtocol {
     func circularSlider(_ slider: MSCircularSlider, revolutionsChangedTo value: Int)
 }
 
-extension MSCircularSliderDelegate {
+public extension MSCircularSliderDelegate {
     // Optional Methods
     func circularSlider(_ slider: MSCircularSlider, startedTrackingWith value: Double) {}
     func circularSlider(_ slider: MSCircularSlider, endedTrackingWith value: Double) {}
@@ -158,6 +158,12 @@ public class MSCircularSlider: UIControl {
         }
     }
     
+    public var handleWidth: Int = 10 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     /** The color of the filled part of the slider - *default: .darkGray* */
     public var filledColor: UIColor = .darkGray {
         didSet {
@@ -209,6 +215,17 @@ public class MSCircularSlider: UIControl {
         }
         get {
             return handle.color
+        }
+    }
+    
+    /** The handle's border color */
+    public var handleBorderColor: UIColor {
+        set {
+            handle.secondaryColor = newValue
+            setNeedsDisplay()
+        }
+        get {
+            return handle.secondaryColor
         }
     }
     
@@ -496,7 +513,7 @@ public class MSCircularSlider: UIControl {
           return true
         }
         
-        return false
+        return false    //pointInsideCircle(location)
     }
     
     override public func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
@@ -570,8 +587,8 @@ public class MSCircularSlider: UIControl {
     override public func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         super.endTracking(touch, with: event)
         
-        castDelegate?.circularSlider(self, endedTrackingWith: currentValue)
         snapHandle()
+        castDelegate?.circularSlider(self, endedTrackingWith: currentValue)
         
         handle.isPressed = false
         isSliding = false

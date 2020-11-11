@@ -11,7 +11,7 @@ public enum MSCircularSliderHandleType: Int, RawRepresentable {
     case smallCircle = 0,
     mediumCircle,
     largeCircle,
-    doubleCircle,
+    withBorder,
     customSize // Semitransparent large circle with a nested small circle
 }
 
@@ -92,20 +92,21 @@ public class MSCircularSliderHandle: CALayer {
     /** The handle's center point */
     internal var center: (() -> CGPoint)!
     
-    /** The calculated handle diameter based on its type */
-    internal var diameter: CGFloat {
-        switch handleType {
-        case .smallCircle:
-            return CGFloat(Double(slider.lineWidth) / 2.0)
-        case .mediumCircle:
-            return CGFloat(slider.lineWidth)
-        case .largeCircle, .doubleCircle:
-            return CGFloat(slider.lineWidth + enlargementPoints)
-        case .customSize:
-            return CGFloat(slider.handleWidth)
-            
-        }
-    }
+  /** The calculated handle diameter based on its type */
+  internal var diameter: CGFloat {
+      switch handleType {
+      case .smallCircle:
+          return CGFloat(Double(slider.lineWidth) / 2.0)
+      case .mediumCircle:
+          return CGFloat(slider.lineWidth)
+      case .largeCircle:
+          return CGFloat(slider.lineWidth + enlargementPoints)
+      case .withBorder:
+        return CGFloat(slider.handleWidth)
+      case .customSize:
+          return CGFloat(slider.handleWidth)
+      }
+  }
     
     //================================================================================
     // SETTERS AND GETTERS
@@ -148,13 +149,12 @@ public class MSCircularSliderHandle: CALayer {
                 image?.draw(in: frame)
             }
         }
-        else if handleType == .doubleCircle {
-            calculatedHandleColor.withAlphaComponent(isHighlightable && isPressed ? 0.9 : 1.0).set()
-            slider.drawFilledCircle(ctx: ctx, center: center(), radius: 0.25 * diameter)
-            
-            calculatedHandleColor.withAlphaComponent(isHighlightable && isPressed ? 0.6 : 0.7).set()
-            
-            frame = slider.drawFilledCircle(ctx: ctx, center: center(), radius: 0.5 * diameter)
+        else if handleType == .withBorder {
+            UIColor.white.set()
+            slider.drawFilledCircle(ctx: ctx, center: center(), radius: 0.5 * diameter)
+          
+            calculatedHandleColor.set()
+            frame = slider.drawFilledCircle(ctx: ctx, center: center(), radius: 0.4 * diameter)
         } else {
             calculatedHandleColor.set()
             

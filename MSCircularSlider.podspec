@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'MSCircularSlider'
-    s.version      = '1.3.4'
+    s.version      = '1.3.5'
     s.license      =  { :type => 'MIT', :file => 'LICENSE' }
     s.authors      =  { 'ThunderStruct' => 'mohamedshahawy@aucegypt.edu' }
     s.summary      = 'A full-featured circular slider for iOS applications'
